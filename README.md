@@ -1,4 +1,4 @@
-# sovcombank-disctionary
+# sovcombank-dictionary
 
 ## Project setup
 ```
