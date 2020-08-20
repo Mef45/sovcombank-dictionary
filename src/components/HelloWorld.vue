@@ -33,11 +33,24 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios'
+
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
+
+  public async created (): Promise<void> {
+    const { data } = await axios.get('/api/words', {
+      params: {
+        sp: 'fre*',
+        md: 'dp'
+      }
+    })
+
+    console.log(data)
+  }
 }
 </script>
 
