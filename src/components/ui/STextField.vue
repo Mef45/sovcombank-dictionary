@@ -11,8 +11,13 @@
                     @keydown.enter="$emit('submit', $event.target.value)"
             />
 
-            <div class="s-text-field__icon">
-                <div class="s-icon"></div>
+            <div
+                    v-if="icon"
+                    class="s-text-field__icon"
+            >
+                <div class="s-icon">
+                    <font-awesome-icon :icon="icon"></font-awesome-icon>
+                </div>
             </div>
         </div>
     </div>
@@ -31,6 +36,9 @@ export default class STextField extends Vue {
 
   @Prop({ type: String, default: undefined })
   public placeholder!: string;
+
+  @Prop({ type: String, default: undefined })
+  public icon!: string;
 
   private static _uid: number = 0;
 
@@ -95,8 +103,10 @@ export default class STextField extends Vue {
     align-self: flex-start;
     display: inline-flex;
     margin-top: 4px;
+    cursor: pointer;
 
     .s-icon {
+      color: rgba(0, 0, 0, .5);
       align-items: center;
       display: inline-flex;
       height: 24px;
@@ -104,7 +114,6 @@ export default class STextField extends Vue {
       justify-content: center;
       min-width: 24px;
       width: 24px;
-      background-color: crimson;
     }
   }
 }
