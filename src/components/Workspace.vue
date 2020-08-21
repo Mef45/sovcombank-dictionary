@@ -4,6 +4,7 @@
                 v-model="searchCondition"
                 label="Поиск"
                 placeholder="Введите искомое значение"
+                icon="search"
                 @submit="performSearch"
         ></s-text-field>
 
