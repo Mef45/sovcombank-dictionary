@@ -5,15 +5,15 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue } from 'vue-property-decorator'
-    import Workspace from './components/Workspace.vue'
+import { Component, Vue } from 'vue-property-decorator'
+import Workspace from './components/Workspace.vue'
 
 @Component({
   components: {
     Workspace,
   },
 })
-    export default class App extends Vue {}
+export default class App extends Vue {}
 </script>
 
 <style lang="scss">
