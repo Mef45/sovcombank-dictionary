@@ -1,22 +1,28 @@
 <template>
     <div class="workspace">
-        <s-text-field
-                v-model="searchCondition"
-                label="Поиск"
-                placeholder="Введите искомое значение"
-                icon="search"
-                @submit="performSearch"
-        ></s-text-field>
+        <div class="container">
+            <div class="row">
+                <div class="column col-3">
+                    <s-text-field
+                            v-model="searchCondition"
+                            label="Поиск"
+                            placeholder="Введите искомое значение"
+                            icon="search"
+                            @submit="performSearch"
+                    ></s-text-field>
+                </div>
 
-        {{ searchCondition }}
-
-        <template
-                v-for="(item, index) in searchResults"
-        >
-            <div :key="`result-${index}`">
-                {{ item }}
+                <div class="column col-9">
+                    <template
+                            v-for="(item, index) in searchResults"
+                    >
+                        <span :key="`result-${index}`">
+                            {{ item.word }}
+                        </span>
+                    </template>
+                </div>
             </div>
-        </template>
+        </div>
     </div>
 </template>
 
@@ -37,36 +43,28 @@ export default class Workspace extends Vue {
 
   public searchCondition: string | null = null;
 
-  // TODO: типизировать
-  public searchResults: any = null;
+  public searchResults: IDictionary | null = null;
 
   public async performSearch(searchCondition: string): Promise<void> {
     const { data } = await axios.get('/api/words', {
       params: {
         sp: `${searchCondition}*`,
-        md: 'dp',
+        md: 'dpr',
       },
     });
 
     this.searchResults = data;
   }
 }
+
+export interface IDictionary {
+  word: string;
+  defs: string[];
+  tags: string[];
+  score: number;
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 </style>
