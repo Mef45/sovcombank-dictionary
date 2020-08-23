@@ -1,0 +1,45 @@
+@import "../variables.scss";
+
+.s-list-item {
+    cursor: pointer;
+    user-select: none;
+    align-items: center;
+    display: flex;
+    flex: 1 1 100%;
+    min-height: 35px;
+    outline: none;
+    padding: 0 16px;
+    position: relative;
+    text-decoration: none;
+
+    &:before {
+        content: "";
+        opacity: 0;
+        background: $primary;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transition: .3s cubic-bezier(.25, .8, .5, 1);
+    }
+
+    &:hover:before {
+        opacity: .15;
+    }
+
+    &__text {
+        flex: 1 1 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &__icon {
+        display: inline-flex;
+        margin-left: 15px;
+        align-self: center;
+        min-width: 35px;
+        justify-content: flex-end;
+    }
+}

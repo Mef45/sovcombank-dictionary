@@ -6,22 +6,21 @@
                     <s-text-field
                             v-model="searchCondition"
                             label="Поиск"
-                            placeholder="Введите искомое значение"
+                            placeholder="Введите значение"
                             icon="search"
                             @submit="performSearch"
                     ></s-text-field>
                 </div>
 
                 <div class="column col-9">
-                    <div class="green-column">
-                        <template
+                    <s-list>
+                        <s-list-item
                                 v-for="(item, index) in searchResults"
+                                :key="`result-${index}`"
                         >
-                            <span :key="`result-${index}`">
-                                {{ item.word }}
-                            </span>
-                        </template>
-                    </div>
+                            {{ item.word }}
+                        </s-list-item>
+                    </s-list>
                 </div>
             </div>
         </div>
@@ -34,10 +33,14 @@ import axios from 'axios'
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 import STextField from './ui/STextField.vue';
+import SList from './ui/SList.vue';
+import SListItem from './ui/SListItem.vue';
 
 @Component({
   components: {
     STextField,
+    SList,
+    SListItem,
   },
 })
 export default class Workspace extends Vue {
