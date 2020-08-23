@@ -13,13 +13,15 @@
                 </div>
 
                 <div class="column col-9">
-                    <template
-                            v-for="(item, index) in searchResults"
-                    >
-                        <span :key="`result-${index}`">
-                            {{ item.word }}
-                        </span>
-                    </template>
+                    <div class="green-column">
+                        <template
+                                v-for="(item, index) in searchResults"
+                        >
+                            <span :key="`result-${index}`">
+                                {{ item.word }}
+                            </span>
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>
