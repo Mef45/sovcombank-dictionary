@@ -2,10 +2,16 @@
     align-items: flex-start;
     display: flex;
     flex: 1 1 auto;
-    font-size: 16px;
     max-width: 100%;
     text-align: left;
     padding-top: 10px;
+
+    &__control {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      flex-grow: 1;
+    }
   
     &__slot {
       align-items: center;
@@ -65,4 +71,77 @@
         width: 24px;
       }
     }
+
+    &__progress {
+      height: 2px;
+      width: 100%;
+      overflow: hidden;
+      position: absolute;
+      top: calc(100% - 1px);
+      left: 0;
+
+      .background {
+        height: inherit;
+        background: $primary;
+        opacity: .15;
+      }
+
+      .long, .short {
+        background-color: $primary;
+        bottom: 0;
+        height: inherit;
+        left: 0;
+        position: absolute;
+        right: auto;
+        top: 0;
+        width: auto;
+        will-change: left, right;
+      }
+
+      &--active .long {
+        animation: indeterminate;
+        animation-duration: 2.2s;
+        animation-iteration-count: infinite;
+      }
+
+      &--active .short {
+        animation: indeterminate-short;
+        animation-duration: 2.2s;
+        animation-iteration-count: infinite;
+      }
+    }
+}
+
+@keyframes indeterminate {
+  0% {
+    left: -90%;
+    right: 100%;
   }
+
+  60% {
+    left: -90%;
+    right: 100%;
+  }
+
+  100% {
+    left: 100%;
+    right: -35%;
+  }
+}
+
+@keyframes indeterminate-short {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}

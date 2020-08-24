@@ -8,6 +8,7 @@
                             label="Поиск"
                             placeholder="Введите значение"
                             icon="search"
+                            :loading="loading"
                             @submit="performSearch"
                     ></s-text-field>
                 </div>
@@ -55,13 +56,18 @@ export default class Workspace extends Vue {
 
   public searchResults: IDictionary | null = null;
 
+  public loading: boolean = false;
+
   public async performSearch(searchCondition: string): Promise<void> {
+    this.loading = true;
     const { data } = await axios.get('/api/words', {
       params: {
         sp: `${searchCondition}*`,
         md: 'dpr',
       },
     });
+
+    this.loading = false;
 
     this.searchResults = data;
   }
