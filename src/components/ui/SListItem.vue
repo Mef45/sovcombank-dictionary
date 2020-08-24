@@ -8,8 +8,16 @@
                 class="s-list-item"
                 @click="onListItemClick"
         >
+            <div class="s-list-item__prepend-icon">
+                <slot name="prepend-icon"></slot>
+            </div>
+
             <div class="s-list-item__header">
                 <slot></slot>
+            </div>
+
+            <div class="s-list-item__append-icon">
+                <slot name="append-icon"></slot>
             </div>
 
             <div class="s-list-item__icon">

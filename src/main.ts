@@ -5,10 +5,11 @@ import store from './store'
 import './styles/index.scss'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faChevronDown, faChevronUp, faBookmark as fasBookmark, faGripLines } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark as farBookmark } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faSearch, faChevronDown, faChevronUp);
+library.add(faSearch, faGripLines, faChevronDown, faChevronUp, fasBookmark, farBookmark);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

@@ -19,6 +19,13 @@
                                 v-for="(item, index) in searchResults"
                                 :key="`result-${index}`"
                         >
+                            <!--<template v-slot:prepend-icon>
+                                <font-awesome-icon
+                                        icon="grip-lines"
+                                        @click="addWordToFavorites($event, item.word)"
+                                ></font-awesome-icon>
+                            </template>-->
+
                             <span class="dictionary-word">
                                 {{ item.word }}
                             </span>
@@ -30,6 +37,13 @@
                             <span class="dictionary-definition">
                                 {{ getDefinition(item.defs) }}
                             </span>
+
+                            <template v-slot:append-icon>
+                                <font-awesome-icon
+                                        :icon="['far', 'bookmark']"
+                                        @click="addWordToFavorites($event, item.word)"
+                                ></font-awesome-icon>
+                            </template>
 
                             <template v-slot:content>
                                 <!-- затрудняюсь сказать, насколько эти произношения имеют отношение к реальности,
@@ -132,6 +146,11 @@ export default class Workspace extends Vue {
       }
 
       return map;
+    }
+
+    public addWordToFavorites(event: MouseEvent, word: string): void {
+        event.preventDefault();
+        event.stopPropagation();
     }
 }
 
