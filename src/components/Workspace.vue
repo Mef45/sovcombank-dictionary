@@ -55,7 +55,7 @@
                                         <p
                                                 v-for="(def, defIndex) in defs"
                                                 :key="defIndex"
-                                                style="margin-left: 10px;"
+                                                style="margin-left: 10px; padding-right: 10px;"
                                         >
                                             {{ defIndex + 1 }}. {{ def }}
                                         </p>
