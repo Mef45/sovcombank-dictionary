@@ -26,6 +26,7 @@
 
         &:before {
             content: "";
+            pointer-events: none;
             opacity: 0;
             background-color: #000000;
             position: absolute;
@@ -47,13 +48,26 @@
             white-space: nowrap;
         }
 
+        &__prepend-icon {
+            display: inline-flex;
+            margin-right: 15px;
+            align-self: center;
+            justify-content: flex-end;
+        }
+
+        &__append-icon {
+            display: inline-flex;
+            margin-left: 15px;
+            align-self: center;
+            justify-content: flex-end;
+        }
+
         &__icon {
             display: inline-flex;
             margin-left: 15px;
             align-self: center;
-            min-width: 35px;
             justify-content: flex-end;
-            
+
             .icon {
                 transition: .3s cubic-bezier(0.075, 0.82, 0.165, 1);
             }
