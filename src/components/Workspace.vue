@@ -19,6 +19,11 @@
                                 :key="`result-${index}`"
                         >
                             {{ item.word }}
+
+                            <template v-slot:content>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla tellus efficitur massa rhoncus laoreet. Mauris lobortis arcu at est fringilla cursus. Suspendisse consectetur nisl nisi, gravida iaculis mauris tempus non. Sed ultrices ultrices bibendum. Sed consectetur sapien ut pharetra elementum. Quisque blandit tortor non dictum tempor. Donec pretium felis tristique massa condimentum viverra. Vivamus pellentesque imperdiet libero. Curabitur ac dui id dui tincidunt efficitur. Pellentesque ornare lectus eu rutrum rhoncus. Donec lorem magna, rhoncus nec egestas et, ultrices eget orci.
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla tellus efficitur massa rhoncus laoreet. Mauris lobortis arcu at est fringilla cursus. Suspendisse consectetur nisl nisi, gravida iaculis mauris tempus non. Sed ultrices ultrices bibendum. Sed consectetur sapien ut pharetra elementum. Quisque blandit tortor non dictum tempor. Donec pretium felis tristique massa condimentum viverra. Vivamus pellentesque imperdiet libero. Curabitur ac dui id dui tincidunt efficitur. Pellentesque ornare lectus eu rutrum rhoncus. Donec lorem magna, rhoncus nec egestas et, ultrices eget orci.
+                            </template>
                         </s-list-item>
                     </s-list>
                 </div>
