@@ -17,13 +17,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+    import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
-export default class SHeader extends Vue {
-    @Prop({type: String, default: null})
-    public title!: string;
-}
+    @Component
+    export default class SHeader extends Vue {
+        @Prop({type: String, default: null})
+        public title!: string;
+    }
 </script>
 
 <style lang="scss" scoped>

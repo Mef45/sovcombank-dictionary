@@ -32,7 +32,7 @@ module.exports = {
             baseIndent: 1,
         }],
         'vue/script-indent': ['error', 4, {
-            baseIndent: 0,
+            baseIndent: 1,
             switchCase: 1,
         }],
         'func-call-spacing': ['error', 'never'],

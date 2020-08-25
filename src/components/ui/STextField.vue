@@ -34,31 +34,31 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+    import { Component, Prop, Vue } from 'vue-property-decorator';
 
-@Component
-export default class STextField extends Vue {
-  @Prop()
-  public value!: string | number | null;
+    @Component
+    export default class STextField extends Vue {
+        @Prop()
+        public value!: string | number | null;
 
-  @Prop({ type: String, default: undefined })
-  public label!: string;
+        @Prop({ type: String, default: undefined })
+        public label!: string;
 
-  @Prop({ type: String, default: undefined })
-  public placeholder!: string;
+        @Prop({ type: String, default: undefined })
+        public placeholder!: string;
 
-  @Prop({ type: String, default: undefined })
-  public icon!: string;
+        @Prop({ type: String, default: undefined })
+        public icon!: string;
 
-  @Prop({type: Boolean, default: false})
-  public loading!: boolean;
+        @Prop({type: Boolean, default: false})
+        public loading!: boolean;
 
-  private static _uid: number = 0;
+        private static _uid: number = 0;
 
-  public created(): void {
-    STextField._uid += 1;
-  }
-}
+        public created(): void {
+            STextField._uid += 1;
+        }
+    }
 </script>
 
 <style lang="scss" scoped>

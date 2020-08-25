@@ -48,57 +48,57 @@
      https://markus.oberlehner.net/blog/transition-to-height-auto-with-vue/ -->
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+    import { Component, Vue } from 'vue-property-decorator';
 
-@Component
-export default class SListItem extends Vue {
-    public isActive: boolean = false;
+    @Component
+    export default class SListItem extends Vue {
+        public isActive: boolean = false;
 
-    public onListItemClick(event: unknown): void {
-        this.isActive = !this.isActive;
-    }
+        public onListItemClick(event: unknown): void {
+            this.isActive = !this.isActive;
+        }
 
-    public onTransitionEnter(el: HTMLElement): void {
-        el.style.height = 'auto';
+        public onTransitionEnter(el: HTMLElement): void {
+            el.style.height = 'auto';
 
-        const height = getComputedStyle(el).height;
+            const height = getComputedStyle(el).height;
 
-        el.style.height = '0';
-
-        getComputedStyle(el).height;
-
-        requestAnimationFrame(() => {
-            el.style.height = height;
-        });
-    }
-
-    public afterTransitionEnter(el: HTMLElement): void {
-        el.style.height = 'auto';
-    }
-
-    public onTransitionLeave(el: HTMLElement): void {
-        const height = getComputedStyle(el).height;
-
-        el.style.height = height;
-
-        getComputedStyle(el).height;
-
-        requestAnimationFrame(() => {
             el.style.height = '0';
-        })
+
+            getComputedStyle(el).height;
+
+            requestAnimationFrame(() => {
+                el.style.height = height;
+            });
+        }
+
+        public afterTransitionEnter(el: HTMLElement): void {
+            el.style.height = 'auto';
+        }
+
+        public onTransitionLeave(el: HTMLElement): void {
+            const height = getComputedStyle(el).height;
+
+            el.style.height = height;
+
+            getComputedStyle(el).height;
+
+            requestAnimationFrame(() => {
+                el.style.height = '0';
+            })
+        }
     }
-}
 </script>
 
 <style lang="scss" scoped>
 .slide-enter-active,
 .slide-leave-active {
-  transition: height .3s ease-in-out;
-  overflow: hidden;
+    transition: height .3s ease-in-out;
+    overflow: hidden;
 }
 
 .slide-enter,
 .slide-leave-to {
-  height: 0;
+    height: 0;
 }
 </style>

@@ -71,110 +71,106 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios';
+    import axios from 'axios';
 
-import { Component, Prop, Vue } from 'vue-property-decorator';
+    import { Component, Prop, Vue } from 'vue-property-decorator';
 
-import STextField from './ui/STextField.vue';
-import SList from './ui/SList.vue';
-import SListItem from './ui/SListItem.vue';
+    import STextField from './ui/STextField.vue';
+    import SList from './ui/SList.vue';
+    import SListItem from './ui/SListItem.vue';
 
-@Component({
-  components: {
-    STextField,
-    SList,
-    SListItem,
-  },
-})
-export default class Workspace extends Vue {
-    @Prop() private msg!: string;
-
-    public searchCondition: string | null = null;
-
-    public searchResults: IDictionary | null = null;
-
-    public loading: boolean = false;
-
-    protected parts: { [key: string]: string} = {
-      'n': 'noun',
-      'v': 'verb',
-      'adj': 'adjective',
-      'adv': 'adverb',
-    };
-
-    public async performSearch(searchCondition: string): Promise<void> {
-      this.loading = true;
-      const { data } = await axios.get('/api/words', {
-        params: {
-          sp: `${searchCondition}*`,
-          md: 'dpr',
-          ipa: 1,
+    @Component({
+        components: {
+            STextField,
+            SList,
+            SListItem,
         },
-      });
+    })
+    export default class Workspace extends Vue {
+        @Prop() private msg!: string;
 
-      this.loading = false;
-      this.searchResults = data.slice(0, 10);
+        public searchCondition: string | null = null;
+
+        public searchResults: IDictionary | null = null;
+
+        public loading: boolean = false;
+
+        protected parts: { [key: string]: string} = {
+            'n': 'noun',
+            'v': 'verb',
+            'adj': 'adjective',
+            'adv': 'adverb',
+        };
+
+        public async performSearch(searchCondition: string): Promise<void> {
+            this.loading = true;
+            const { data } = await axios.get('/api/words', {
+                params: {
+                    sp: `${searchCondition}*`,
+                    md: 'dpr',
+                    ipa: 1,
+                },
+            });
+
+            this.loading = false;
+            this.searchResults = data.slice(0, 10);
+        }
+
+        public getPartOfSpeech(tags: string[]): string {
+            return this.parts[tags[0]];
+        }
+
+        public getPronunciation(tags: string[]): string {
+            const regex = /^ipa_pron:/g;
+            const pronunciation = tags.find(tag => regex.test(tag));
+            return pronunciation ? pronunciation.replace(regex, '') : '';
+        }
+
+        public getDefinition(definitions: string[]): string {
+            return definitions ? definitions[0].replace(/^.*[\t]/g, '') : 'Описание отсутствует';
+        }
+
+        public mapDefinitions(definitions: string[]): any {
+            const map: {[key: string]: string[]} = {};
+
+            if (definitions) {
+                definitions.map(d => {
+                    const key = d.replace(/[\t].*/, '');
+                    const def = d.replace(/^.*[\t]/g, '');
+
+                    if (!map.hasOwnProperty(key)) {
+                        map[key] = [];
+                        map[key].push(def);
+                    } else map[key].push(def);
+                });
+            }
+
+            return map;
+        }
+
+        public addWordToFavorites(event: MouseEvent, word: string): void {
+            event.preventDefault();
+            event.stopPropagation();
+        }
     }
 
-    public getPartOfSpeech(tags: string[]): string {
-      return this.parts[tags[0]];
-    }
-
-    public getPronunciation(tags: string[]): string {
-      const regex = /^ipa_pron:/g;
-      const pronunciation = tags.find(tag => regex.test(tag));
-      return pronunciation ? pronunciation.replace(regex, '') : '';
-    }
-
-    public getDefinition(definitions: string[]): string {
-      return definitions ? definitions[0].replace(/^.*[\t]/g, '') : 'Описание отсутствует';
-    }
-
-    public mapDefinitions(definitions: string[]): any {
-      const map: {[key: string]: string[]} = {};
-
-      if (definitions) {
-        definitions.map(d => {
-          const key = d.replace(/[\t].*/, '');
-          const def = d.replace(/^.*[\t]/g, '');
-
-          if (!map.hasOwnProperty(key)) {
-            map[key] = [];
-            map[key].push(def);
-          } else map[key].push(def);
-        });
-      }
-
-      return map;
-    }
-
-    public addWordToFavorites(event: MouseEvent, word: string): void {
-        event.preventDefault();
-        event.stopPropagation();
-    }
-}
-
-export interface IDictionary {
-    word: string;
-    defs: string[];
-    tags: string[];
-    score: number;
-  };
+    export interface IDictionary {
+        word: string;
+        defs: string[];
+        tags: string[];
+        score: number;
+    };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-  .dictionary-word {
-    font-weight: bold;
-    margin-right: 40px;
-  }
+    .dictionary-word {
+        font-weight: bold;
+        margin-right: 40px;
+    }
 
-  .dictionary-part {
-    font-style: italic;
-    margin-right: 40px;
-  }
-
-  .dictionary-definition {
-
-  }
+    .dictionary-part {
+        font-style: italic;
+        margin-right: 40px;
+    }
 </style>

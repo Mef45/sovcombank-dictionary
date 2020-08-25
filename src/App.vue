@@ -11,18 +11,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+    import { Component, Vue } from 'vue-property-decorator';
 
-import Workspace from './components/Workspace.vue';
-import SHeader from './components/ui/SHeader.vue';
+    import Workspace from './components/Workspace.vue';
+    import SHeader from './components/ui/SHeader.vue';
 
-@Component({
-  components: {
-    Workspace,
-    SHeader,
-  },
-})
-export default class App extends Vue {}
+    @Component({
+        components: {
+            Workspace,
+            SHeader,
+        },
+    })
+    export default class App extends Vue {}
 </script>
 
 <style lang="scss">
