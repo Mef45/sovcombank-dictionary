@@ -9,15 +9,15 @@
                             placeholder="Введите значение"
                             icon="search"
                             :loading="loading"
-                            @submit="performSearch"
+                            @submit="search"
                     ></s-text-field>
                 </div>
 
                 <div class="column col-9">
                     <s-list>
                         <s-list-item
-                                v-for="(item, index) in searchResults"
-                                :key="`result-${index}`"
+                                v-for="(word, index) in words"
+                                :key="`word-${index}`"
                         >
                             <!--<template v-slot:prepend-icon>
                                 <font-awesome-icon
@@ -27,31 +27,37 @@
                             </template>-->
 
                             <span class="dictionary-word">
-                                {{ item.word }}
+                                {{ word.word }}
                             </span>
 
                             <span class="dictionary-part">
-                                {{ getPartOfSpeech(item.tags) }}
+                                {{ word.mainPart }}
                             </span>
 
                             <span class="dictionary-definition">
-                                {{ getDefinition(item.defs) }}
+                                {{ word.mainDefinition }}
                             </span>
 
                             <template v-slot:append-icon>
                                 <font-awesome-icon
+                                        v-if="bookmark(word.word)"
+                                        :icon="['fas', 'bookmark']"
+                                        @click="removeWordFromBookmarks($event, word)"
+                                ></font-awesome-icon>
+                                <font-awesome-icon
+                                        v-else
                                         :icon="['far', 'bookmark']"
-                                        @click="addWordToFavorites($event, item.word)"
+                                        @click="addWordToBookmarks($event, word)"
                                 ></font-awesome-icon>
                             </template>
 
                             <template v-slot:content>
                                 <!-- затрудняюсь сказать, насколько эти произношения имеют отношение к реальности,
                                       но выбирать не приходится-->
-                                <span style="font-style: italic">/{{ getPronunciation(item.tags) }}/</span>
-                                <template v-for="(defs, part) in mapDefinitions(item.defs)">
+                                <span style="font-style: italic">/{{ word.pronunciation }}/</span>
+                                <template v-for="(defs, part) in word.definitions">
                                     <div :key="`${part}-${index}`">
-                                        <span style="font-style: italic">{{ parts[part] }}</span>
+                                        <span style="font-style: italic">{{ part }}</span>
                                         <p
                                                 v-for="(def, defIndex) in defs"
                                                 :key="defIndex"
@@ -71,13 +77,18 @@
 </template>
 
 <script lang="ts">
-    import axios from 'axios';
-
     import { Component, Prop, Vue } from 'vue-property-decorator';
+
+    import { Getter, namespace } from 'vuex-class';
+    import { Word } from '@/store/dictionary';
+    import { Bookmark } from '@/store/bookmarks';
 
     import STextField from './ui/STextField.vue';
     import SList from './ui/SList.vue';
     import SListItem from './ui/SListItem.vue';
+
+    const dictionary = namespace('dictionary');
+    const bookmarks = namespace('bookmarks');
 
     @Component({
         components: {
@@ -91,75 +102,38 @@
 
         public searchCondition: string | null = null;
 
-        public searchResults: IDictionary | null = null;
+        @Getter('loading')
+        public loading!: boolean;
 
-        public loading: boolean = false;
+        @bookmarks.Action('saveWord')
+        public saveWord!: (word: string) => void;
 
-        protected parts: { [key: string]: string} = {
-            'n': 'noun',
-            'v': 'verb',
-            'adj': 'adjective',
-            'adv': 'adverb',
-        };
+        @bookmarks.Action('removeWord')
+        public removeWord!: (word: string) => void;
 
-        public async performSearch(searchCondition: string): Promise<void> {
-            this.loading = true;
-            const { data } = await axios.get('/api/words', {
-                params: {
-                    sp: `${searchCondition}*`,
-                    md: 'dpr',
-                    ipa: 1,
-                },
-            });
+        @bookmarks.Getter('bookmark')
+        public bookmark: (word: string) => Bookmark | undefined;
 
-            this.loading = false;
-            this.searchResults = data.slice(0, 10);
-        }
+        @dictionary.Getter('words')
+        public words!: Word[];
 
-        public getPartOfSpeech(tags: string[]): string {
-            return this.parts[tags[0]];
-        }
+        @dictionary.Action('search')
+        public search!: (searchCondition: string) => Promise<void>;
 
-        public getPronunciation(tags: string[]): string {
-            const regex = /^ipa_pron:/g;
-            const pronunciation = tags.find(tag => regex.test(tag));
-            return pronunciation ? pronunciation.replace(regex, '') : '';
-        }
-
-        public getDefinition(definitions: string[]): string {
-            return definitions ? definitions[0].replace(/^.*[\t]/g, '') : 'Описание отсутствует';
-        }
-
-        public mapDefinitions(definitions: string[]): any {
-            const map: {[key: string]: string[]} = {};
-
-            if (definitions) {
-                definitions.map(d => {
-                    const key = d.replace(/[\t].*/, '');
-                    const def = d.replace(/^.*[\t]/g, '');
-
-                    if (!map.hasOwnProperty(key)) {
-                        map[key] = [];
-                        map[key].push(def);
-                    } else map[key].push(def);
-                });
-            }
-
-            return map;
-        }
-
-        public addWordToFavorites(event: MouseEvent, word: string): void {
+        public addWordToBookmarks(event: MouseEvent, word: Word): void {
             event.preventDefault();
             event.stopPropagation();
+
+            this.saveWord(word);
+        }
+
+        public removeWordFromBookmarks(event: MouseEvent, word: Word): void {
+            event.preventDefault();
+            event.stopPropagation();
+
+            this.removeWord(word);
         }
     }
-
-    export interface IDictionary {
-        word: string;
-        defs: string[];
-        tags: string[];
-        score: number;
-    };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
