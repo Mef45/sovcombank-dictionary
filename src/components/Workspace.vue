@@ -106,14 +106,17 @@
         @Getter('loading')
         public loading!: boolean;
 
-        @bookmarks.Action('saveWord')
-        public saveWord!: (word: string) => void;
+        @bookmarks.Action('saveBookmark')
+        public saveBookmark!: (word: Word) => Promise<void>;
 
-        @bookmarks.Action('removeWord')
-        public removeWord!: (word: string) => void;
+        @bookmarks.Action('removeBookmark')
+        public removeBookmark!: (word: Word) => Promise<void>;
+
+        @bookmarks.Action('getBookmarks')
+        public getBookmarks!: () => Promise<void>;
 
         @bookmarks.Getter('bookmark')
-        public bookmark: (word: string) => Bookmark | undefined;
+        public bookmark!: (word: string) => Bookmark | undefined;
 
         @dictionary.Getter('words')
         public words!: Word[];
@@ -125,14 +128,16 @@
             event.preventDefault();
             event.stopPropagation();
 
-            this.saveWord(word);
+            this.saveBookmark(word);
+            this.getBookmarks();
         }
 
         public removeWordFromBookmarks(event: MouseEvent, word: Word): void {
             event.preventDefault();
             event.stopPropagation();
 
-            this.removeWord(word);
+            this.removeBookmark(word);
+            this.getBookmarks();
         }
     }
 </script>

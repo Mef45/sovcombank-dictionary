@@ -1,13 +1,9 @@
 import { Module, GetterTree, MutationTree, ActionTree } from 'vuex';
 
-import { RootState } from '../types';
+import { RootState } from '@/store/types';
+import { Word } from '@/store/dictionary';
 
-export const PARTS: { [key: string]: string } = {
-    'n': 'noun',
-    'v': 'verb',
-    'adj': 'adjective',
-    'adv': 'adverb',
-};
+import idb from '@/api/idb';
 
 const namespaced: boolean = true;
 
@@ -25,24 +21,32 @@ export const getters: GetterTree<IBookmarksState, RootState> = {
 };
 
 export const mutations: MutationTree<IBookmarksState> = {
-    saveWord(state, payload: Bookmark): void {
+    saveBookmark(state, payload: Bookmark): void {
         state.bookmarks.push(payload);
     },
-    removeWord(state, payload: Bookmark): void {
+    removeBookmark(state, payload: Bookmark): void {
         const index = state.bookmarks.findIndex((bookmark: Bookmark) => bookmark.word === payload.word);
 
         if (index != -1) {
             state.bookmarks.splice(index, 1);
         }
     },
+    setBookmarks(state, payload: Bookmark[]): void {
+        state.bookmarks = payload;
+    },
 };
 
 export const actions: ActionTree<IBookmarksState, RootState> = {
-    saveWord({ commit }, word: Bookmark): void {
-        commit('saveWord', word);
+    async saveBookmark({ state, commit }, word: Word): Promise<void> {
+        await idb.addBookmark(word);
     },
-    removeWord({ commit }, word: Bookmark): void {
-        commit('removeWord', word);
+    async removeBookmark({ state, commit }, word: Word): Promise<void> {
+        const bookmark = state.bookmarks.find(bookmark => bookmark.word === word.word);
+        if (bookmark) await idb.removeBookmark(bookmark);
+    },
+    async getBookmarks({commit}): Promise<void> {
+        const bookmarks = await idb.getBookmarks();
+        commit('setBookmarks', bookmarks);
     },
 };
 
@@ -55,6 +59,7 @@ export const bookmarks: Module<IBookmarksState, RootState> = {
 };
 
 export interface Bookmark {
+    id: number;
     word: string;
     mainPart: string;
     mainDefinition: string;
@@ -65,11 +70,4 @@ export interface Bookmark {
 
 export interface IBookmarksState {
     bookmarks: Bookmark[];
-};
-
-export interface IDictionaryApiResponse {
-    word: string;
-    defs: string[];
-    tags: string[];
-    score: number;
-};
+}
