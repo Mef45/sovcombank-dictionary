@@ -1,17 +1,20 @@
-import Vue from 'vue'
-import App from './App.vue'
-import store from './store'
+import Vue from 'vue';
+import App from './App.vue';
 
-import './styles/index.scss'
+import './styles/index.scss';
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faChevronDown, faChevronUp, faBookmark as fasBookmark, faGripLines } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faSearch, faChevronDown, faChevronUp, faBookmark as fasBookmark, faGripLines } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as farBookmark } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 library.add(faSearch, faGripLines, faChevronDown, faChevronUp, fasBookmark, farBookmark);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+
+import store from './store';
+import { dictionary } from './store/dictionary'
+store.registerModule('dictionary', dictionary);
 
 Vue.config.productionTip = false
 
