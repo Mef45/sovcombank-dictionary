@@ -48,7 +48,8 @@
                                         v-else
                                         :icon="['far', 'bookmark']"
                                         @click="addWordToBookmarks($event, word)"
-                                ></font-awesome-icon>
+                                >
+                                </font-awesome-icon>
                             </template>
 
                             <template v-slot:content>
