@@ -40,9 +40,16 @@
 
                             <template v-slot:append-icon>
                                 <font-awesome-icon
-                                        :icon="['far', 'bookmark']"
-                                        @click="addWordToFavorites($event, word.word)"
+                                        v-if="bookmark(word.word)"
+                                        :icon="['fas', 'bookmark']"
+                                        @click="removeWordFromBookmarks($event, word)"
                                 ></font-awesome-icon>
+                                <font-awesome-icon
+                                        v-else
+                                        :icon="['far', 'bookmark']"
+                                        @click="addWordToBookmarks($event, word)"
+                                >
+                                </font-awesome-icon>
                             </template>
 
                             <template v-slot:content>
@@ -75,12 +82,14 @@
 
     import { Getter, namespace } from 'vuex-class';
     import { Word } from '@/store/dictionary';
+    import { Bookmark } from '@/store/bookmarks';
 
     import STextField from './ui/STextField.vue';
     import SList from './ui/SList.vue';
     import SListItem from './ui/SListItem.vue';
 
     const dictionary = namespace('dictionary');
+    const bookmarks = namespace('bookmarks');
 
     @Component({
         components: {
@@ -94,10 +103,17 @@
 
         public searchCondition: string | null = null;
 
-        public searchResults: IDictionary | null = null;
-
         @Getter('loading')
         public loading!: boolean;
+
+        @bookmarks.Action('saveWord')
+        public saveWord!: (word: string) => void;
+
+        @bookmarks.Action('removeWord')
+        public removeWord!: (word: string) => void;
+
+        @bookmarks.Getter('bookmark')
+        public bookmark: (word: string) => Bookmark | undefined;
 
         @dictionary.Getter('words')
         public words!: Word[];
@@ -105,9 +121,18 @@
         @dictionary.Action('search')
         public search!: (searchCondition: string) => Promise<void>;
 
-        public addWordToFavorites(event: MouseEvent, word: string): void {
+        public addWordToBookmarks(event: MouseEvent, word: Word): void {
             event.preventDefault();
             event.stopPropagation();
+
+            this.saveWord(word);
+        }
+
+        public removeWordFromBookmarks(event: MouseEvent, word: Word): void {
+            event.preventDefault();
+            event.stopPropagation();
+
+            this.removeWord(word);
         }
     }
 </script>

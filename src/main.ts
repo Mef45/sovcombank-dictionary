@@ -13,8 +13,12 @@ library.add(faSearch, faGripLines, faChevronDown, faChevronUp, fasBookmark, farB
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 import store from './store';
-import { dictionary } from './store/dictionary'
+
+import { dictionary } from './store/dictionary';
+import { bookmarks } from './store/bookmarks';
+
 store.registerModule('dictionary', dictionary);
+store.registerModule('bookmarks', bookmarks);
 
 Vue.config.productionTip = false
 

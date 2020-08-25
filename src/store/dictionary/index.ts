@@ -30,7 +30,7 @@ export const mutations: MutationTree<IDictionaryState> = {
 };
 
 export const actions: ActionTree<IDictionaryState, RootState> = {
-    async search({ commit, getters, dispatch }, searchCondition: string): Promise<void> {
+    async search({ commit }, searchCondition: string): Promise<void> {
         commit('startLoading', null, { root: true });
         const { data } = await axios.get('/api/words', {
             params: {
