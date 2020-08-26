@@ -46,11 +46,11 @@
             content: "";
             left: 0;
             position: absolute;
-            transition: .3s cubic-bezier(.25,.8,.5,1);
+            transition: .3s cubic-bezier(.25, .8, .5, 1);
             width: 100%;
             border-style: solid;
             border-width: thin 0 0;
-            border-color:rgba(0, 0, 0, .4);
+            border-color: rgba(0, 0, 0, .4);
         }
     }
 

@@ -50,7 +50,7 @@
         @Prop({ type: String, default: undefined })
         public icon!: string;
 
-        @Prop({type: Boolean, default: false})
+        @Prop({ type: Boolean, default: false })
         public loading!: boolean;
 
         private static _uid: number = 0;

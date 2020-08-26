@@ -74,6 +74,7 @@
     import STextField from '@/components/ui/STextField.vue';
     import SList from '@/components/ui/SList.vue';
     import SListItem from '@/components/ui/SListItem.vue';
+    import SCheckboxGroup from '@/components/ui/SCheckboxGroup.vue';
 
     import { Bookmark } from '@/store/bookmarks';
     import { Word } from '@/store/dictionary';
@@ -82,9 +83,10 @@
 
     @Component({
         components: {
-          STextField,
-          SList,
-          SListItem,
+            SCheckboxGroup,
+            STextField,
+            SList,
+            SListItem,
         },
     })
     export default class Bookmarks extends Vue {
@@ -104,22 +106,22 @@
         }
 
         public removeWordFromBookmarks(event: MouseEvent, bookmark: Bookmark): void {
-          event.preventDefault();
-          event.stopPropagation();
+            event.preventDefault();
+            event.stopPropagation();
 
-          this.removeBookmark(bookmark);
+            this.removeBookmark(bookmark);
         }
     }
 </script>
 
 <style lang="scss" scoped>
-  .dictionary-word {
-    font-weight: bold;
-    margin-right: 40px;
-  }
+    .dictionary-word {
+        font-weight: bold;
+        margin-right: 40px;
+    }
 
-  .dictionary-part {
-    font-style: italic;
-    margin-right: 40px;
-  }
+    .dictionary-part {
+        font-style: italic;
+        margin-right: 40px;
+    }
 </style>

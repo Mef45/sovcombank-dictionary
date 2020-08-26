@@ -81,12 +81,13 @@
     import { Component, Prop, Vue } from 'vue-property-decorator';
 
     import { Getter, namespace } from 'vuex-class';
+
+    import STextField from '@/components/ui/STextField.vue';
+    import SList from '@/components/ui/SList.vue';
+    import SListItem from '@/components/ui/SListItem.vue';
+
     import { Word } from '@/store/dictionary';
     import { Bookmark } from '@/store/bookmarks';
-
-    import STextField from './ui/STextField.vue';
-    import SList from './ui/SList.vue';
-    import SListItem from './ui/SListItem.vue';
 
     const dictionary = namespace('dictionary');
     const bookmarks = namespace('bookmarks');

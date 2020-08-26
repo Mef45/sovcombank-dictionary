@@ -21,7 +21,7 @@
 
     @Component
     export default class SHeader extends Vue {
-        @Prop({type: String, default: null})
+        @Prop({ type: String, default: null })
         public title!: string;
     }
 </script>

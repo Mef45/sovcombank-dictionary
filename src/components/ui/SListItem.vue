@@ -85,20 +85,20 @@
 
             requestAnimationFrame(() => {
                 el.style.height = '0';
-            })
+            });
         }
     }
 </script>
 
 <style lang="scss" scoped>
-.slide-enter-active,
-.slide-leave-active {
-    transition: height .3s ease-in-out;
-    overflow: hidden;
-}
+    .slide-enter-active,
+    .slide-leave-active {
+        transition: height .3s ease-in-out;
+        overflow: hidden;
+    }
 
-.slide-enter,
-.slide-leave-to {
-    height: 0;
-}
+    .slide-enter,
+    .slide-leave-to {
+        height: 0;
+    }
 </style>
