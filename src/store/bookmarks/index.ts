@@ -15,8 +15,11 @@ export const getters: GetterTree<IBookmarksState, RootState> = {
     bookmark(state): (word: string) => Bookmark | undefined {
         return (word: string): Bookmark | undefined => state.bookmarks.find(bookmark => bookmark.word === word);
     },
-    bookmarks(state): Bookmark[] {
-        return state.bookmarks;
+    bookmarks(state): (searchCondition: string) => Bookmark[] | undefined {
+        return (searchCondition: string | null): Bookmark[] | undefined => {
+            if (searchCondition) return state.bookmarks.filter(bookmark => bookmark.word.includes(searchCondition));
+            return state.bookmarks;
+        }
     },
 };
 

@@ -14,7 +14,7 @@
                 <div class="column col-9">
                     <s-list>
                         <s-list-item
-                                v-for="(bookmark, index) in bookmarks"
+                                v-for="(bookmark, index) in bookmarks(searchCondition)"
                                 :key="`bookmark-${index}`"
                         >
                             <template v-slot:prepend-icon>
@@ -76,6 +76,7 @@
     import SListItem from '@/components/ui/SListItem.vue';
 
     import { Bookmark } from '@/store/bookmarks';
+    import { Word } from '@/store/dictionary';
 
     const bookmarks = namespace('bookmarks');
 
@@ -94,7 +95,7 @@
         public getBookmarks!: () => Promise<void>;
 
         @bookmarks.Getter('bookmarks')
-        public bookmarks!: Bookmarks[];
+        public bookmarks!: (searchCondition: string) => Bookmark[] | undefined;
 
         public searchCondition: string | null = null;
 
