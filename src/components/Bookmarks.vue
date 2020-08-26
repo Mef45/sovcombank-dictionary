@@ -38,7 +38,7 @@
                             <template v-slot:append-icon>
                                 <font-awesome-icon
                                         :icon="['fas', 'bookmark']"
-                                        @click="removeBookmark($event, bookmark)"
+                                        @click="removeWordFromBookmarks($event, bookmark)"
                                 ></font-awesome-icon>
                             </template>
 
@@ -87,6 +87,9 @@
         },
     })
     export default class Bookmarks extends Vue {
+        @bookmarks.Action('removeBookmark')
+        public removeBookmark!: (word: Word | Bookmark) => Promise<void>;
+
         @bookmarks.Action('getBookmarks')
         public getBookmarks!: () => Promise<void>;
 
@@ -99,11 +102,11 @@
             await this.getBookmarks();
         }
 
-        public removeBookmark(event: MouseEvent, bookmark: Bookmark): void {
+        public removeWordFromBookmarks(event: MouseEvent, bookmark: Bookmark): void {
           event.preventDefault();
           event.stopPropagation();
 
-          this.getBookmarks();
+          this.removeBookmark(bookmark);
         }
     }
 </script>

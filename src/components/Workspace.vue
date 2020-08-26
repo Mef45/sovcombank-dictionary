@@ -110,7 +110,7 @@
         public saveBookmark!: (word: Word) => Promise<void>;
 
         @bookmarks.Action('removeBookmark')
-        public removeBookmark!: (word: Word) => Promise<void>;
+        public removeBookmark!: (word: Word | Bookmark) => Promise<void>;
 
         @bookmarks.Getter('bookmark')
         public bookmark!: (word: string) => Bookmark | undefined;
