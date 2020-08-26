@@ -112,9 +112,6 @@
         @bookmarks.Action('removeBookmark')
         public removeBookmark!: (word: Word) => Promise<void>;
 
-        @bookmarks.Action('getBookmarks')
-        public getBookmarks!: () => Promise<void>;
-
         @bookmarks.Getter('bookmark')
         public bookmark!: (word: string) => Bookmark | undefined;
 
@@ -129,7 +126,6 @@
             event.stopPropagation();
 
             this.saveBookmark(word);
-            this.getBookmarks();
         }
 
         public removeWordFromBookmarks(event: MouseEvent, word: Word): void {
@@ -137,7 +133,6 @@
             event.stopPropagation();
 
             this.removeBookmark(word);
-            this.getBookmarks();
         }
     }
 </script>
