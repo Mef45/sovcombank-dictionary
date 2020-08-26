@@ -25,7 +25,7 @@ export const mutations: MutationTree<IBookmarksState> = {
         state.bookmarks.push(payload);
     },
     removeBookmark(state, payload: Bookmark): void {
-        const index = state.bookmarks.findIndex((bookmark: Bookmark) => bookmark.word === payload.word);
+        const index = state.bookmarks.findIndex((bookmark: Bookmark) => bookmark.id === payload.id);
 
         if (index != -1) {
             state.bookmarks.splice(index, 1);
@@ -38,11 +38,15 @@ export const mutations: MutationTree<IBookmarksState> = {
 
 export const actions: ActionTree<IBookmarksState, RootState> = {
     async saveBookmark({ state, commit }, word: Word): Promise<void> {
+        commit('saveBookmark', word);
         await idb.addBookmark(word);
     },
     async removeBookmark({ state, commit }, word: Word): Promise<void> {
         const bookmark = state.bookmarks.find(bookmark => bookmark.word === word.word);
-        if (bookmark) await idb.removeBookmark(bookmark);
+        if (bookmark) {
+            commit('removeBookmark', bookmark);
+            await idb.removeBookmark(bookmark);
+        }
     },
     async getBookmarks({commit}): Promise<void> {
         const bookmarks = await idb.getBookmarks();
