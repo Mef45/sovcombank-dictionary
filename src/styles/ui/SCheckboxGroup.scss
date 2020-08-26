@@ -1,0 +1,39 @@
+.s-checkbox-group {
+    align-items: flex-start;
+    display: flex;
+    font-size: 16px;
+    max-width: 100%;
+    text-align: left;
+
+    @media (max-width: 600px) {
+        .s-checkbox-group__slot {
+            flex-direction: row;
+        }
+
+        label {
+            margin-right: 15px;
+        }
+    }
+
+    &__slot {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        flex-grow: 1;
+        flex-wrap: wrap;
+        min-width: 0;
+        width: 100%;
+    }
+
+    label {
+        display: inline-flex;
+        left: 0;
+        right: auto;
+        position: relative;
+        align-items: center;
+    }
+
+    input {
+        margin-right: 5px;
+    }
+}

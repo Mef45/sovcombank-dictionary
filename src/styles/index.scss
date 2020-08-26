@@ -1,3 +1,5 @@
+@import "ui/SCheckbox";
+@import "ui/SCheckboxGroup";
 @import "ui/SHeader.scss";
 @import "ui/STextField.scss";
 @import "ui/SList.scss";
@@ -57,14 +59,21 @@ html {
             width: 100%;
             padding: 4px 12px 0 12px;
 
-            &.col-3 {
-                flex: 0 0 25%;
-                max-width: 25%;
+            @media (min-width: 600px) {
+                &.col-sm-3 {
+                    flex: 0 0 25%;
+                    max-width: 25%;
+                }
+
+                &.col-sm-9 {
+                    flex: 0 0 75%;
+                    max-width: 75%;
+                }
             }
 
-            &.col-9 {
-                flex: 0 0 75%;
-                max-width: 75%;
+            &col-12 {
+                flex: 0 0 100%;
+                max-width: 100%;
             }
         }
     }

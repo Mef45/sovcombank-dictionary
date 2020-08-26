@@ -2,16 +2,21 @@
     <div class="bookmarks">
         <div class="container">
             <div class="row">
-                <div class="column col-3">
+                <div class="column col-sm-3 col-12">
                     <s-text-field
                             v-model="searchCondition"
                             label="Поиск"
                             placeholder="Введите значение"
                             icon="search"
                     ></s-text-field>
+
+                    <s-checkbox-group
+                            v-model="parts"
+                            :items="wordPartItems"
+                    ></s-checkbox-group>
                 </div>
 
-                <div class="column col-9">
+                <div class="column col-sm-9 col-12">
                     <s-list>
                         <s-list-item
                                 v-for="(bookmark, index) in bookmarks(searchCondition)"
@@ -90,6 +95,13 @@
         },
     })
     export default class Bookmarks extends Vue {
+        public readonly wordPartItems: { [key: string]: string } = {
+            'n': 'noun',
+            'v': 'verb',
+            'adj': 'adjective',
+            'adv': 'adverb',
+        };
+
         @bookmarks.Action('removeBookmark')
         public removeBookmark!: (word: Word | Bookmark) => Promise<void>;
 
@@ -100,6 +112,8 @@
         public bookmarks!: (searchCondition: string) => Bookmark[] | undefined;
 
         public searchCondition: string | null = null;
+
+        public parts: [] = [];
 
         public async created(): Promise<void> {
             await this.getBookmarks();
