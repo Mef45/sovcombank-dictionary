@@ -41,7 +41,7 @@ export const actions: ActionTree<IBookmarksState, RootState> = {
         commit('saveBookmark', word);
         await idb.addBookmark(word);
     },
-    async removeBookmark({ state, commit }, word: Word): Promise<void> {
+    async removeBookmark({ state, commit }, word: Word | Bookmark): Promise<void> {
         const bookmark = state.bookmarks.find(bookmark => bookmark.word === word.word);
         if (bookmark) {
             commit('removeBookmark', bookmark);
