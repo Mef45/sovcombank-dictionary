@@ -2,7 +2,7 @@
     <div class="workspace">
         <div class="container">
             <div class="row">
-                <div class="column col-3">
+                <div class="column col-sm-3 col-12">
                     <s-text-field
                             v-model="searchCondition"
                             label="Поиск"
@@ -13,7 +13,7 @@
                     ></s-text-field>
                 </div>
 
-                <div class="column col-9">
+                <div class="column col-sm-9 col-12">
                     <s-list>
                         <s-list-item
                                 v-for="(word, index) in words"
