@@ -36,7 +36,7 @@
             if (event.target.checked) {
                 currentValue.push(event.target.value);
             } else {
-                currentValue = currentValue.filter(item => item !== e.target.value);
+                currentValue = currentValue.filter(item => item !== event.target.value);
             }
 
             this.$emit('input', currentValue);
