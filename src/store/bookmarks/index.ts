@@ -15,11 +15,21 @@ export const getters: GetterTree<IBookmarksState, RootState> = {
     bookmark(state): (word: string) => Bookmark | undefined {
         return (word: string): Bookmark | undefined => state.bookmarks.find(bookmark => bookmark.word === word);
     },
-    bookmarks(state): (searchCondition: string) => Bookmark[] | undefined {
-        return (searchCondition: string | null): Bookmark[] | undefined => {
-            if (searchCondition) return state.bookmarks.filter(bookmark => bookmark.word.includes(searchCondition));
-            return state.bookmarks;
-        }
+    bookmarks(state): (searchCondition: string, parts: string[]) => Bookmark[] {
+        return (searchCondition: string, parts: string[]): Bookmark[] => {
+            let result = state.bookmarks;
+            if (searchCondition) {
+                result = result.filter(bookmark => bookmark.word.includes(searchCondition));
+            }
+
+            if (parts.length !== 0) {
+                result = result.reduce((acc: Bookmark[], bookmark: Bookmark) =>
+                    parts.some(p => p === bookmark.mainPart) ?
+                        acc.concat(bookmark) : acc, []);
+            }
+
+            return result;
+        };
     },
 };
 
@@ -56,7 +66,7 @@ export const actions: ActionTree<IBookmarksState, RootState> = {
             await idb.removeBookmark(bookmark);
         }
     },
-    async getBookmarks({commit}): Promise<void> {
+    async getBookmarks({ commit }): Promise<void> {
         const bookmarks = await idb.getBookmarks();
         commit('setBookmarks', bookmarks.sort((a, b) => a.pos - b.pos));
     },

@@ -6,6 +6,7 @@
                     :key="`checkbox-${index}`"
                     v-model="internalModel"
                     :item="item"
+                    @input="$emit('input', internalModel)"
             ></s-checkbox>
         </div>
     </div>

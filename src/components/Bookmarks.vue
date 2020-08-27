@@ -126,19 +126,19 @@
         public getBookmarks!: () => Promise<void>;
 
         @bookmarks.Action('updateBookmarks')
-        public updateBookmarks!: (bookmarks: Bookmark[]) => void;
+        public updateBookmarks!: (bookmarks: Bookmark[], parts: string[]) => void;
 
         @bookmarks.Getter('bookmarks')
-        public bookmarks!: (searchCondition: string) => Bookmark[] | undefined;
+        public bookmarks!: (searchCondition: string) => Bookmark[];
 
-        public searchCondition: string | null = null;
+        public searchCondition: string = '';
 
         public parts: string[] = [];
 
         public draggedElement = null;
 
         public get bookmarksModel(): Bookmark[] {
-            return this.bookmarks(this.searchCondition);
+            return this.bookmarks(this.searchCondition, this.parts);
         }
 
         public set bookmarksModel(bookmarks: Bookmark[]) {
