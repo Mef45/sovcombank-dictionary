@@ -56,7 +56,7 @@ export default {
             store.delete(word.id);
         })
     },
-    async getBookmarks(): Promise<IDBDatabase> {
+    async getBookmarks(): Promise<Bookmark[]> {
         const db = await this.getDB();
         return new Promise(res => {
             const transaction = db.transaction([STORAGE_NAME], 'readonly');
@@ -75,5 +75,19 @@ export default {
                 }
             }
         });
+    },
+    async setBookmarks(bookmarks: Bookmark[]): Promise<IDBDatabase> {
+        const db = await this.getDB();
+        return new Promise(res => {
+            const transaction = db.transaction([STORAGE_NAME], 'readwrite');
+            transaction.oncomplete = (): void => {
+                res();
+            }
+
+            const store = transaction.objectStore(STORAGE_NAME);
+            for (const bookmark of bookmarks) {
+                store.put(bookmark);
+            }
+        })
     },
 }
