@@ -73,7 +73,6 @@ export const actions: ActionTree<IDictionaryState, RootState> = {
                 mainDefinition: mainDefinition,
                 definitions: definitions,
                 pronunciation: pronunciation,
-                saved: false,
             });
 
             commit('setWords', words);
@@ -95,7 +94,6 @@ export interface Word {
     mainDefinition: string;
     definitions: { [key: string]: string[] };
     pronunciation: string;
-    saved: boolean;
 }
 
 export interface IDictionaryState {

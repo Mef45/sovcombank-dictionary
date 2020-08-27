@@ -41,8 +41,13 @@ export const mutations: MutationTree<IBookmarksState> = {
 
 export const actions: ActionTree<IBookmarksState, RootState> = {
     async saveBookmark({ state, commit }, word: Word): Promise<void> {
-        commit('saveBookmark', word);
-        await idb.addBookmark(word);
+        const bookmark = {
+            pos: state.bookmarks.length + 1,
+            ...word,
+        };
+
+        commit('saveBookmark', bookmark);
+        await idb.addBookmark(bookmark);
     },
     async removeBookmark({ state, commit }, word: Word | Bookmark): Promise<void> {
         const bookmark = state.bookmarks.find(bookmark => bookmark.word === word.word);
@@ -53,7 +58,13 @@ export const actions: ActionTree<IBookmarksState, RootState> = {
     },
     async getBookmarks({commit}): Promise<void> {
         const bookmarks = await idb.getBookmarks();
+        commit('setBookmarks', bookmarks.sort((a, b) => a.pos - b.pos));
+    },
+    async updateBookmarks({ commit }, bookmarks: Bookmark[]): Promise<void> {
+        bookmarks.map((bookmark, index) => bookmark.pos = index + 1);
+
         commit('setBookmarks', bookmarks);
+        await idb.setBookmarks(bookmarks);
     },
 };
 
@@ -72,7 +83,7 @@ export interface Bookmark {
     mainDefinition: string;
     definitions: { [key: string]: string[] };
     pronunciation: string;
-    saved: boolean;
+    pos: number;
 }
 
 export interface IBookmarksState {
