@@ -126,10 +126,10 @@
         public getBookmarks!: () => Promise<void>;
 
         @bookmarks.Action('updateBookmarks')
-        public updateBookmarks!: (bookmarks: Bookmark[], parts: string[]) => void;
+        public updateBookmarks!: (bookmarks: Bookmark[]) => void;
 
         @bookmarks.Getter('bookmarks')
-        public bookmarks!: (searchCondition: string) => Bookmark[];
+        public bookmarks!: (searchCondition: string, parts: string[]) => Bookmark[];
 
         public searchCondition: string = '';
 
